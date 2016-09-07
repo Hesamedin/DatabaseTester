@@ -116,7 +116,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onRetrieveBookingsClicked(View view) {
-        List<Booking> bookings = mRealm.findBookingById("11");
-        Log.d(TAG, "Number of " + bookings.size() + " item(s) found in Booking Table.");
+        printMessage(">> Try to find numbers of Booking object in Realm db with id...");
+        long startTime = System.currentTimeMillis();
+
+        List<Booking> bookings = mRealm.findBookingById("1234");
+
+        long processTime = System.currentTimeMillis();
+        processTime -= startTime;
+        printMessage("> Number of " + bookings.size() + " Booking(s) found in db with id in " + processTime + "ms");
     }
 }

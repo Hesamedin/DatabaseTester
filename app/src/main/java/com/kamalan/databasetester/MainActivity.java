@@ -64,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
         mRealm.deleteBookingTable();
         long processTime = System.currentTimeMillis();
         processTime -= startTime;
-        printMessage("> Realm db cleared in " + processTime/1000 + "s");
+        printMessage("> Realm db cleared in " + processTime + "ms");
     }
 
     public void onGenerateBookingsClicked(View view) {

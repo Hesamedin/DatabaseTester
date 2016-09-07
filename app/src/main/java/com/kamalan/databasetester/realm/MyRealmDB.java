@@ -41,7 +41,8 @@ public class MyRealmDB {
         mRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                realm.deleteAll();            }
+                realm.delete(Booking.class);
+            }
         });
     }
 

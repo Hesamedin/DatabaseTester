@@ -28,3 +28,7 @@ Delete all items with type Booking.class (all 10000 items in DB)
 | ---| --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | Realm (ms) | 20 | 22 | 21 | 28 | 25 | 93 | 21 | 21 | 22 | 22 |
 | SnappyDB (ms) | 255 | 238 | 251 | 285 | 253 | 284 | 278 | 295 | 277 | 274 |
+
+
+##Screenshot
+![Screenshot](https://github.com/Hesamedin/DatabaseTester/raw/master/screenshots/screenshot.gif

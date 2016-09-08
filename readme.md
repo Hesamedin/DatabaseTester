@@ -1,6 +1,6 @@
-After Several Insertion for Realm DB, following results achieved.
-First, 10,000 objects created.
-Second, These objects inserted to Realm db. The process took:
+Test is done based on Nexus 5 device, Android 6.0.1
+
+Process: I create 10,000 objects and keep them in memory. Then try to store them in the db (result shows in the following table). Then try to find all Booking objects that their `id` contains a value (such as 1, 25, etc.). Finally try to delete all objects based on the best method each lib provides.
 
 ##Create
 

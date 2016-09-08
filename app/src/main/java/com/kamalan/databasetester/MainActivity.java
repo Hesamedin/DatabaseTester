@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
 
     private StringBuilder mSb;
     private EditText mConsole;
+    private EditText mEditText;
 
     private List<Booking> mBookingList;
 
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        mEditText = (EditText) findViewById(R.id.editText);
         mConsole = (EditText) findViewById(R.id.etConsole);
         mConsole.setKeyListener(null);
 
@@ -39,9 +41,6 @@ public class MainActivity extends AppCompatActivity {
         mRealm = new MyRealmDB(this);
 
         mSnappy = new MySnappyDB(this);
-
-//        List<Booking> bookings = mRealm.getAllBookings();
-//        Log.d(TAG, "Number of " + bookings.size() + " item(s) found in Booking Table.");
     }
 
     @Override
@@ -95,44 +94,93 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void onInsertBookingsClicked(View view) {
+        mSb.setLength(0);
         if (mBookingList == null) {
             printMessage("> Booking list is empty. Generate Booking obj first.");
             return;
         }
 
         printMessage(">> Try to store 10000 random Booking object in db...");
+
+        insertIntoRealmDb();
+        insertIntoSnappyDb();
+    }
+
+    public void onRetrieveBookingsClicked(View view) {
+        mSb.setLength(0);
+        printMessage(">> Try to find numbers of Booking object in db with id...");
+
+        realmFindById();
+        snappyFindById();
+    }
+
+    public void onClearDbClicked(View view) {
+        mSb.setLength(0);
+        printMessage(">> CLR all tables");
+
+        realmDelete();
+        snappyDelete();
+    }
+
+    private void insertIntoRealmDb() {
         long startTime = System.currentTimeMillis();
         for (Booking booking : mBookingList) {
-//            mRealm.storeBooking(booking);
+            mRealm.storeBooking(booking);
+        }
+
+        long processTime = System.currentTimeMillis();
+        processTime -= startTime;
+        printMessage("> Insert to Realm took " + processTime + "ms");
+    }
+
+    private void insertIntoSnappyDb() {
+        long startTime = System.currentTimeMillis();
+        for (Booking booking : mBookingList) {
             mSnappy.storeBooking(booking.getId(), booking);
         }
 
         long processTime = System.currentTimeMillis();
         processTime -= startTime;
-        printMessage("> Number of " + mBookingList.size() + " Booking obj stored in db in" + processTime + "ms");
+        printMessage("> Insert to Snappy took " + processTime + "ms");
     }
 
-    public void onRetrieveBookingsClicked(View view) {
-        printMessage(">> Try to find numbers of Booking object in db with id...");
+    private void realmFindById() {
         long startTime = System.currentTimeMillis();
 
-//        List<Booking> bookings = mRealm.findBookingById("1234");
-        List<Booking> bookings = mSnappy.findBookingByKey("78");
+        List<Booking> bookings = mRealm.findBookingById(mEditText.getText().toString().trim());
 
         long processTime = System.currentTimeMillis();
         processTime -= startTime;
-        printMessage("> Number of " + bookings.size() + " Booking(s) found in db with id in " + processTime + "ms");
+        printMessage("> Number of " + bookings.size() + " Booking(s) found in Realm db in " + processTime + "ms");
     }
 
-    public void onClearDbClicked(View view) {
-        printMessage(">> CLR all tables");
+    private void snappyFindById() {
         long startTime = System.currentTimeMillis();
 
-//        mRealm.deleteBookingTable();
+        List<Booking> bookings = mSnappy.findBookingByKey(mEditText.getText().toString().trim());
+
+        long processTime = System.currentTimeMillis();
+        processTime -= startTime;
+        printMessage("> Number of " + bookings.size() + " Booking(s) found in Snappy db in " + processTime + "ms");
+    }
+
+    private void realmDelete() {
+        long startTime = System.currentTimeMillis();
+
+        mRealm.deleteBookingTable();
+
+        long processTime = System.currentTimeMillis();
+        processTime -= startTime;
+        printMessage("> Realm cleared in " + processTime + "ms");
+    }
+
+    private void snappyDelete() {
+        long startTime = System.currentTimeMillis();
+
         mSnappy.deleteBookingTable();
 
         long processTime = System.currentTimeMillis();
         processTime -= startTime;
-        printMessage("> DB cleared in " + processTime + "ms");
+        printMessage("> Snappy cleared in " + processTime + "ms");
     }
 }

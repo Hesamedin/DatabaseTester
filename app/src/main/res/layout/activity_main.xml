@@ -12,13 +12,6 @@
         android:orientation="vertical">
 
     <Button
-            android:id="@+id/btnClearDb"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Clear DB"
-            android:onClick="onClearDbClicked"/>
-
-    <Button
             android:id="@+id/btnGenerateBookings"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -32,12 +25,34 @@
             android:text="Insert into DB"
             android:onClick="onInsertBookingsClicked"/>
 
-    <Button
-            android:id="@+id/btnRetrieveFromDb"
+    <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Retrieve from DB"
-            android:onClick="onRetrieveBookingsClicked"/>
+            android:orientation="horizontal">
+
+        <Button
+                android:id="@+id/btnRetrieveFromDb"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".7"
+                android:text="Retrieve from DB"
+                android:onClick="onRetrieveBookingsClicked"/>
+
+        <EditText
+                android:id="@+id/editText"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight=".3"
+                android:inputType="number"
+                android:hint="eg. 1"/>
+    </LinearLayout>
+
+    <Button
+            android:id="@+id/btnClearDb"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Clear DB"
+            android:onClick="onClearDbClicked"/>
 
     <EditText
             android:id="@+id/etConsole"

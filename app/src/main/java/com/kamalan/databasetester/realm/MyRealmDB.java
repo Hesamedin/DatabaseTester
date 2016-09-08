@@ -41,15 +41,7 @@ public class MyRealmDB  {
         mRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
-                Booking realmBooking = realm.createObject(Booking.class);
-                realmBooking.setId(booking.getId());
-                realmBooking.setCode(booking.getCode());
-                realmBooking.setFareLowerBound(booking.getFareLowerBound());
-                realmBooking.setFareUpperBound(booking.getFareUpperBound());
-                realmBooking.setPhoneNumber(booking.getPhoneNumber());
-                realmBooking.setPickUpTime(booking.getPickUpTime());
-                realmBooking.setRequestedTaxiTypeName(booking.getRequestedTaxiTypeName());
-                realmBooking.setTaxiTypeId(booking.getTaxiTypeId());
+                realm.insertOrUpdate(booking);
             }
         });
     }

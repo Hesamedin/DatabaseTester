@@ -11,7 +11,7 @@ import io.realm.RealmResults;
 /**
  * Created by hesam on 9/6/16.
  */
-public class MyRealmDB {
+public class MyRealmDB  {
     private Context mContext;
     private Realm mRealm;
 
@@ -35,15 +35,6 @@ public class MyRealmDB {
 
     public void closeDB() {
         mRealm.close();
-    }
-
-    public void deleteBookingTable() {
-        mRealm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                realm.delete(Booking.class);
-            }
-        });
     }
 
     public void storeBooking(final Booking booking) {
@@ -71,5 +62,14 @@ public class MyRealmDB {
         return mRealm.where(Booking.class)
                 .contains("id", id)
                 .findAll();
+    }
+
+    public void deleteBookingTable() {
+        mRealm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                realm.delete(Booking.class);
+            }
+        });
     }
 }

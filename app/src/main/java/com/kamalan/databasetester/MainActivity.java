@@ -2,6 +2,7 @@ package com.kamalan.databasetester;
 
 import com.kamalan.databasetester.model.Booking;
 import com.kamalan.databasetester.realm.MyRealmDB;
+import com.kamalan.databasetester.snappy.MySnappyDB;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private MyRealmDB mRealm;
+    private MySnappyDB mSnappy;
 
     private StringBuilder mSb;
     private EditText mConsole;
@@ -36,8 +38,10 @@ public class MainActivity extends AppCompatActivity {
 
         mRealm = new MyRealmDB(this);
 
-        List<Booking> bookings = mRealm.getAllBookings();
-        Log.d(TAG, "Number of " + bookings.size() + " item(s) found in Booking Table.");
+        mSnappy = new MySnappyDB(this);
+
+//        List<Booking> bookings = mRealm.getAllBookings();
+//        Log.d(TAG, "Number of " + bookings.size() + " item(s) found in Booking Table.");
     }
 
     @Override
@@ -45,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
 
         mRealm.closeDB();
+        mSnappy.closeDB();
     }
 
     private void printMessage(String message) {
@@ -57,21 +62,12 @@ public class MainActivity extends AppCompatActivity {
         mConsole.scrollTo(0, y);
     }
 
-    public void onClearDbClicked(View view) {
-        printMessage(">> CLR all tables");
-        long startTime = System.currentTimeMillis();
-
-        mRealm.deleteBookingTable();
-        long processTime = System.currentTimeMillis();
-        processTime -= startTime;
-        printMessage("> Realm db cleared in " + processTime + "ms");
-    }
-
     public void onGenerateBookingsClicked(View view) {
         printMessage(">> Try to create 10000 random Booking object...");
         long startTime = System.currentTimeMillis();
 
         mBookingList = getBookingList(10000);
+
         long processTime = System.currentTimeMillis();
         processTime -= startTime;
         printMessage("> Number of " + mBookingList.size() + " Booking obj created in " + processTime/1000 + "s");
@@ -104,25 +100,39 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        printMessage(">> Try to store 10000 random Booking object in Realm db...");
+        printMessage(">> Try to store 10000 random Booking object in db...");
         long startTime = System.currentTimeMillis();
         for (Booking booking : mBookingList) {
-            mRealm.storeBooking(booking);
+//            mRealm.storeBooking(booking);
+            mSnappy.storeBooking(booking.getId(), booking);
         }
 
         long processTime = System.currentTimeMillis();
         processTime -= startTime;
-        printMessage("> Number of " + mBookingList.size() + " Booking obj stored in Realm db in" + processTime/1000 + "s");
+        printMessage("> Number of " + mBookingList.size() + " Booking obj stored in db in" + processTime + "ms");
     }
 
     public void onRetrieveBookingsClicked(View view) {
-        printMessage(">> Try to find numbers of Booking object in Realm db with id...");
+        printMessage(">> Try to find numbers of Booking object in db with id...");
         long startTime = System.currentTimeMillis();
 
-        List<Booking> bookings = mRealm.findBookingById("1234");
+//        List<Booking> bookings = mRealm.findBookingById("1234");
+        List<Booking> bookings = mSnappy.findBookingByKey("78");
 
         long processTime = System.currentTimeMillis();
         processTime -= startTime;
         printMessage("> Number of " + bookings.size() + " Booking(s) found in db with id in " + processTime + "ms");
+    }
+
+    public void onClearDbClicked(View view) {
+        printMessage(">> CLR all tables");
+        long startTime = System.currentTimeMillis();
+
+//        mRealm.deleteBookingTable();
+        mSnappy.deleteBookingTable();
+
+        long processTime = System.currentTimeMillis();
+        processTime -= startTime;
+        printMessage("> DB cleared in " + processTime + "ms");
     }
 }

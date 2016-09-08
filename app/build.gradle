@@ -31,6 +31,6 @@ dependencies {
 
     compile 'com.google.code.gson:gson:2.6.1'
 
-    compile 'io.reactivex:rxandroid:1.2.1'
-    compile 'io.reactivex:rxjava:1.1.6'
+    compile 'com.snappydb:snappydb-lib:0.4.0'
+    compile 'com.esotericsoftware.kryo:kryo:2.24.0'
 }

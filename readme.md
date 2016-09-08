@@ -31,4 +31,4 @@ Delete all items with type Booking.class (all 10000 items in DB)
 
 
 ##Screenshot
-![Screenshot](https://github.com/Hesamedin/DatabaseTester/raw/master/screenshots/screenshot.gif
+![Screenshot](https://github.com/Hesamedin/DatabaseTester/raw/master/screenshots/screenshot.gif)

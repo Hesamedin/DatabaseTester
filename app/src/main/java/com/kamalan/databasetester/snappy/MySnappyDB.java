@@ -36,9 +36,11 @@ public class MySnappyDB {
         }
     }
 
-    public void storeBooking(String key, Booking booking) {
+    public void storeBooking(final List<Booking> bookings) {
         try {
-            mSnappyDb.put(key, booking);
+            for (Booking booking : bookings) {
+                mSnappyDb.put(booking.getId(), booking);
+            }
         } catch (SnappydbException e) {
             e.printStackTrace();
         }
@@ -60,9 +62,11 @@ public class MySnappyDB {
         return list;
     }
 
-    public void deleteBookingTable() {
+    public void deleteBookingTable(final List<Booking> bookings) {
         try {
-            mSnappyDb.destroy();
+            for (Booking booking : bookings) {
+                mSnappyDb.del(booking.getId());
+            }
         } catch (SnappydbException e) {
             e.printStackTrace();
         }

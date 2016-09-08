@@ -69,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
 
         long processTime = System.currentTimeMillis();
         processTime -= startTime;
-        printMessage("> Number of " + mBookingList.size() + " Booking obj created in " + processTime/1000 + "s");
+        printMessage("> Number of " + mBookingList.size() + " Booking obj created in " + processTime / 1000 + "s");
     }
 
     private List<Booking> getBookingList(int size) {
@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity {
             booking.setFareUpperBound(rand.nextFloat());
             booking.setPhoneNumber("1234567890");
             booking.setPickUpTime(rand.nextLong());
-            booking.setRequestedTaxiTypeName("taxi"+UUID.randomUUID().toString());
+            booking.setRequestedTaxiTypeName("taxi" + UUID.randomUUID().toString());
             booking.setTaxiTypeId(String.valueOf(rand.nextInt(100)));
 
             bookingList.add(booking);
@@ -124,9 +124,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void insertIntoRealmDb() {
         long startTime = System.currentTimeMillis();
-        for (Booking booking : mBookingList) {
-            mRealm.storeBooking(booking);
-        }
+
+        mRealm.storeBooking(mBookingList);
 
         long processTime = System.currentTimeMillis();
         processTime -= startTime;
@@ -135,9 +134,8 @@ public class MainActivity extends AppCompatActivity {
 
     private void insertIntoSnappyDb() {
         long startTime = System.currentTimeMillis();
-        for (Booking booking : mBookingList) {
-            mSnappy.storeBooking(booking.getId(), booking);
-        }
+
+        mSnappy.storeBooking(mBookingList);
 
         long processTime = System.currentTimeMillis();
         processTime -= startTime;
@@ -177,7 +175,7 @@ public class MainActivity extends AppCompatActivity {
     private void snappyDelete() {
         long startTime = System.currentTimeMillis();
 
-        mSnappy.deleteBookingTable();
+        mSnappy.deleteBookingTable(mBookingList);
 
         long processTime = System.currentTimeMillis();
         processTime -= startTime;

@@ -4,6 +4,8 @@ import com.kamalan.databasetester.model.Booking;
 
 import android.content.Context;
 
+import java.util.List;
+
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
@@ -37,7 +39,7 @@ public class MyRealmDB  {
         mRealm.close();
     }
 
-    public void storeBooking(final Booking booking) {
+    public void storeBooking(final List<Booking> booking) {
         mRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
